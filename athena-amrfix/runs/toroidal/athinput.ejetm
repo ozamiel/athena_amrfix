@@ -1,0 +1,93 @@
+<comment>
+problem   = underdense SR supersonic jet with ringed magnetic fields
+reference = 
+configure = python3 configure.py --prob=srjet_m -s -hdf5 -h5double --hdf5_path $HDF5_ROOT --coord=cylindrical -b -mpi
+
+<job>
+problem_id = jet      # problem ID: basename of output filenames
+
+<output1>
+file_type  = hst      # History data dump
+dt         = 0.1      # time increment between outputs
+
+<output2>
+file_type  = hdf5      # Binary data dump
+variable   = prim,b     # variables to be output
+dt         = 1.0      # time increment between outputs
+#ghost_zones = 1         # include ghost zones
+
+<output3>
+file_type  = rst
+dt         = 50.
+
+<time>
+cfl_number = 0.1      # The Courant, Friedrichs, & Lewy (CFL) Number
+nlim       = -1       # cycle limit
+tlim       = 5000.0    # time limit
+integrator  = vl2       # time integration algorithm
+xorder      = 2         # order of spatial reconstruction
+ncycle_out  = 1         # interval for stdout summary info
+
+<mesh>
+nx1        = 192     # Number of zones in X1-direction
+x1min      = 1.5      # minimum value of X1
+x1max      = 100.0     # maximum value of X1
+x1rat      = 1.0221
+ix1_bc     = reflecting     # inner-X1 boundary flag
+ox1_bc     = outflow  # outer-X1 boundary flag
+
+nx2        = 128      # Number of zones in X2-direction
+x2min      = 0.0    # minimum value of X2
+x2max      = 6.2831853071795862     # maximum value of X2
+ix2_bc     = periodic # inner-X2 boundary flag
+ox2_bc     = periodic  # outer-X2 boundary flag
+
+nx3        = 384        # Number of zones in X3-direction
+x3min      = 0.0    # minimum value of X3
+x3max      = 200.0     # maximum value of X3
+ix3_bc     = user  # inner-X3 boundary flag
+ox3_bc     = user  # outer-X3 boundary flag
+
+refinement     = adaptive
+numlevel       = 2
+derefine_count    = 5
+
+<meshblock>
+nx1 = 32
+nx2 = 32
+nx3 = 16
+
+<hydro>
+gamma   = 1.3333333333333333333333     # gamma = C_p/C_v
+sigma_max = 100
+beta_min = 0.01
+gamma_max = 30
+
+<problem>
+d  = 1.0
+p  = 0.1
+vx = 0.0
+vy = 0.0
+vz = 0.1
+bx = 0.0
+by = 0.0
+bz = 0.0
+
+djet = 0.01 # 0.05
+pjet = 0.1 # 0.5
+vxjet = 1.25
+vyjet = 0.0
+vzjet = 5.0
+bxjet = 0.0
+byjet = 0.0
+bzjet = 0.0
+b0 = 2.7 #0.4
+z0 = 1.0
+
+rjet = 5.0
+drjet = 0.5
+
+mang = 27 # angular number of the perturbation
+dang = 0.01 # amplitude of the perturbation
+
+sig_ref = 0.1
